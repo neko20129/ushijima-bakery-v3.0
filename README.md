@@ -1,4 +1,4 @@
-https://neko20129.github.io/ushijima-bakery/
+https://neko20129.github.io/ushijima-bakery-pc/
 
 現在の最新バージョンは ver.2.0.2です
 
