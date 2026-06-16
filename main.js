@@ -868,5 +868,7 @@ function debug(e) {
 function openRanking() {
     if (confirm('別のランキングページが新しいタブで開かれます\nよろしいですか？')) {
         window.open('https://', '_blank', 'noopener,noreferrer');
+    } else {
+        alert('キャンセルしました');
     }
 }
