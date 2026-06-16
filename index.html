@@ -130,11 +130,13 @@
                                         <div style="display: flex; margin-top: 20px">
                                             <button id="buy1" class="buy-button">1個買う</button>
                                             <button id="buy10" class="buy-button">10個買う</button>
+                                            <button id="buy100" class="buy-button">100個買う</button>
                                             <button id="buyAll" class="buy-button">買えるだけ<br/>買う</button>
                                         </div>
                                         <div style="display: flex; margin-top: 10px">
                                             <button id="sell1" class="buy-button">1個売る</button>
                                             <button id="sell10" class="buy-button">10個売る</button>
+                                            <button id="sell100" class="buy-button">100個売る</button>
                                             <button id="sellAll" class="buy-button">売れるだけ<br/>売る</button>
                                         </div>
                                         <h3 id="buyOpenLvElm">解放レベル: Lv.<span id="buyOpenLv"></span></h3>
@@ -192,6 +194,7 @@
                                         <div style="display: flex; padding-top: 3em">
                                             <button id="make1" class="make-button">1個作る</button>
                                             <button id="make10" class="make-button">10個作る</button>
+                                            <button id="make100" class="make-button">100個作る</button>
                                             <button id="makeAll" class="make-button">作れるだけ<br/>作る</button>
                                         </div>
                                         <h3 id="makeOpenLvElm">解放レベル: Lv.<span id="makeOpenLv"></span></h3>
@@ -252,7 +255,7 @@
                         </div>
                     </div>
 
-                    <div class="modal_wrap4">
+                    <div class="modal_wrap4" style="display: none;">
                         <input type="radio" id="modal_open4" class="modal_open-input4" name="modal_trigger"/>
                         <label for="modal_open4" class="modal_open-label4">
                             <img src="img/settings.png" class="button-img" />
@@ -276,6 +279,12 @@
                             </label>
                         </div>
                     </div>
+
+                    <div class="modal_wrap5">
+                        <input type="radio" id="modal_open5" class="modal_open-input5" name="modal_trigger"/>
+                        <label for="modal_open5" class="modal_open-label5" onclick="openRanking()">
+                            <img src="img/ranking.png" class="button-img" />
+                        </label>
                 </div>
             </div>
         <script src="variable.js"></script>
