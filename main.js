@@ -629,6 +629,38 @@ myWorker.onmessage = function(e) {
 myWorker.postMessage('start');
 
 //関数
+
+// GASへデータを送信する関数
+async function sendDataToSheets(dataArray) {
+    // ステップ2でコピーしたGASのURL
+    const gasUrl = 'https://script.google.com/a/macros/matsubaramanabi.e-kokoro.ed.jp/s/AKfycbzdMuGZACjf-KSYPufjK9IUx0F6q1qKCqm0sL8mQ-QjCPRuHFcaw6QYkbJvib05_BVDxQ/exec'; 
+
+    try {
+        const response = await fetch(gasUrl, {
+            method: 'POST',
+            mode: 'cors', // クロスドメイン通信を許可
+            headers: {
+                'Content-Type': 'text/plain', // GAS側で受け取りやすくするため、あえてtext/plainにするのがコツです
+            },
+            body: JSON.stringify(dataArray) // 送りたいデータをJSON文字列に変換
+        });
+
+        const result = await response.json();
+        if (result.status === 'success') {
+            console.log('スプレッドシートへのデータ共有に成功しました！');
+        } else {
+            console.error('GAS側でエラーが発生しました:', result.message);
+        }
+    } catch (error) {
+        console.error('通信エラーが発生しました:', error);
+    }
+}
+
+// --- 既存のコードの中での使い方（例） ---
+// ボタンクリックやフォーム送信のイベント内で呼び出す
+const targetData = ['ユーザーA', '12', '18920'];
+sendDataToSheets(targetData);
+
 function AaD(item, compare) { //Add and Delete
     let diff
     if (item.length < compare.length) {
