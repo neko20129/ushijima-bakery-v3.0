@@ -575,6 +575,7 @@ loadElm.addEventListener('click', async () => {
     }
 });
 
+document.getElementById('ranking').addEventListener('click', () => {if (confirm('別のランキングページが新しいタブで開かれます\nよろしいですか？')) window.open('https://', '_blank', 'noopener,noreferrer')});
 //ゲームループ
 const workerCode = `
   self.onmessage = function(e) {
@@ -1165,12 +1166,3 @@ function debug(e) {
         upgradeDisplay[2][1] = 10**10**10;
     }
 }
-
-function openRanking() {
-    if (confirm('別のランキングページが新しいタブで開かれます\nよろしいですか？')) {
-        window.open('https://', '_blank', 'noopener,noreferrer');
-    } else {
-        alert('キャンセルしました');
-    }
-}
-
