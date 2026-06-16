@@ -1,6 +1,6 @@
 https://neko20129.github.io/ushijima-bakery-v3.0/
 
-現在の最新バージョンは ver.2.0.2です
+現在の最新バージョンは ver.3.0です
 
 2月 17日　ver.0.0beta 公開
 
