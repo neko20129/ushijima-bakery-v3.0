@@ -245,7 +245,7 @@ function preloadImages(sources) {
                         
                         // 進捗率（%）を画面に表示する
                         const progress = Math.floor((loadedCount / totalImages) * 100);
-                        document.getElementById('loading-progress').textContent = `${progress}%`;
+                        document.getElementById('loading-prog').textContent = `${progress}%`;
 
                         // すべての画像の読み込みが完了したらPromiseを完了する
                         if (loadedCount === totalImages) {
