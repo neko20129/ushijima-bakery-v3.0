@@ -1,4 +1,3 @@
-//変数
 const log = document.getElementById('log-range');
 
 const levelElm = document.getElementById('level');
@@ -101,12 +100,15 @@ const ing3_need = document.getElementById('ing3-need');
 
 const buy1 = document.getElementById('buy1');
 const buy10 = document.getElementById('buy10');
+const buy100 = document.getElementById('buy100');
 const buyAll = document.getElementById('buyAll');
 const sell1 = document.getElementById('sell1');
 const sell10 = document.getElementById('sell10');
+const sell100 = document.getElementById('sell100');
 const sellAll = document.getElementById('sellAll');
 const make1 = document.getElementById('make1');
 const make10 = document.getElementById('make10');
+const make100 = document.getElementById('make100');
 const makeAll = document.getElementById('makeAll');
 
 const upgradeL1 = document.getElementById('upgradeLv-1');
@@ -171,7 +173,8 @@ let buyDisplay = [
     [['砂糖'],[110],['img/satou.png'],[0],[3]],
     [['バター'],[120],['img/bata.png'],[0],[3]],
     [['塩'],[160],['img/sio.png'],[0],[4]],
-    [['はちみつ'],[200],['img/hatimitu.png'],[0],[4]]
+    [['はちみつ'],[200],['img/hatimitu.png'],[0],[5]],
+    [['野菜セット'],[750],['img/yasai.png'],[0],[5]]
 ];
 
 /*make =[名前],[[材料の種類],[材料の数]],[[材料の種類],[材料の数]],[[材料の種類],[材料の数]],
@@ -181,10 +184,12 @@ let makeDisplay = [
     [['パン'],[[1],[1]],[[0],[0]],[[0],[0]],[45],['img/pan.png'],[0],[1]],
     [['あんぱん'],[[1],[2]],[[2],[1]],[[0],[0]],[130],['img/anpan.png'],[0],[1]],
     [['チョココロネ'],[[1],[1]],[[3],[1]],[[0],[0]],[270],['img/korone.png'],[0],[2]],
-    [['クリームパン'],[[1],[1]],[[4],[1]],[[5],[1]],[440],['img/kurimu.png'],[0],[2]],
-    [['ウシジマパン'],[[1],[3]],[[6],[2]],[[7],[1]],[760],['img/ushijima.png'],[0],[3]],
-    [['塩パン'],[[1],[1]],[[7],[1]],[[8],[1]],[810],['img/siopan.png'],[0],[4]],
-    [['ベーグル'],[[1],[2]],[[6],[2]],[[9],[1]],[1080],['img/beguru.png'],[0],[4]]
+    [['クリームパン'],[[1],[1]],[[4],[1]],[[5],[1]],[440],['img/kurimu.png'],[0],[3]],
+    [['ウシジマパン'],[[1],[3]],[[6],[2]],[[7],[1]],[590],['img/ushijima.png'],[0],[4]],
+    [['塩パン'],[[1],[1]],[[7],[1]],[[8],[1]],[650],['img/siopan.png'],[0],[5]],
+    [['フランスパン'],[[1],[10]],[[6],[1]],[[7],[1]],[750],['img/huransupan.png'],[0],[5]],
+    [['ベーグル'],[[1],[2]],[[6],[2]],[[9],[1]],[920],['img/beguru.png'],[0],[6]],
+    [['イタリアンピザ'],[[1],[2]],[[5],[1]],[[10],[1]],[1380],['img/piza.png'],[0],[6]]
 ];
 
 let upgradeDisplay = [
