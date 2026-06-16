@@ -53,6 +53,12 @@ buy10.addEventListener('click', () => {
     }
 });
 
+buy100.addEventListener('click', () => {
+    if (buyDisplay[buyPage][4] <= level) {
+        buy(100);
+    }
+});
+
 buyAll.addEventListener('click', () => {
     if (buyDisplay[buyPage][4] <= level) {
         let num = Math.floor(money / buyDisplay[buyPage][1]);
@@ -69,6 +75,12 @@ sell1.addEventListener('click', () => {
 sell10.addEventListener('click', () => {
     if (buyDisplay[buyPage][4] <= level) {
         sell(10);
+    }
+});
+
+sell100.addEventListener('click', () => {
+    if (buyDisplay[buyPage][4] <= level) {
+        sell(100);
     }
 });
 
@@ -123,6 +135,47 @@ make10.addEventListener('click', () => {
         };
 
         if (makeN >= 10) make(10);
+    };
+});
+
+make100.addEventListener('click', () => {
+    if (makeDisplay[makePage][7] <= level) {
+        let canmake = true;
+        let makeN = 0;
+        if (makeDisplay[makePage][1][0] != 0) { //材料枠1に材料がある?
+            if (buyDisplay[makeDisplay[makePage][1][0]][3] >= makeDisplay[makePage][1][1]) {//持っている数が必要数ある?
+                makeN = Math.floor(buyDisplay[makeDisplay[makePage][1][0]][3] / makeDisplay[makePage][1][1]);
+                //持っている数÷必要数を切り下げて、何個作れるか
+            } else {
+                canmake = false;
+            };
+        };
+    
+        if (makeDisplay[makePage][2][0] != 0) { //材料枠2に材料がある?
+            if (buyDisplay[makeDisplay[makePage][2][0]][3] >= makeDisplay[makePage][2][1]) {//持っている数が必要数ある? 
+              if (makeN > Math.floor(buyDisplay[makeDisplay[makePage][2][0]][3] / makeDisplay[makePage][2][1])) {
+                    //材料枠1の条件で買える量より少なかったら合わせる
+                    makeN = Math.floor(buyDisplay[makeDisplay[makePage][2][0]][3] / makeDisplay[makePage][2][1]);
+                };
+                //持っている数÷必要数を切り下げて、何個作れるか
+            } else {
+                canmake = false;
+            };
+        };
+
+        if (makeDisplay[makePage][3][0] != 0) { //材料枠3に材料がある?
+            if (buyDisplay[makeDisplay[makePage][3][0]][3] >= makeDisplay[makePage][3][1]) {//持っている数が必要数ある?
+                if (makeN > Math.floor(buyDisplay[makeDisplay[makePage][3][0]][3] / makeDisplay[makePage][3][1])) {
+                    //材料枠1,2の条件で買える量より少なかったら合わせる
+                    makeN = Math.floor(buyDisplay[makeDisplay[makePage][3][0]][3] / makeDisplay[makePage][3][1]);
+                };
+                //持っている数÷必要数を切り下げて、何個作れるか
+            } else {
+                canmake = false;
+            };
+        };
+
+        if (makeN >= 100) make(100);
     };
 });
 
@@ -193,28 +246,32 @@ upgradeB3.addEventListener('click', () => {
     reloadOfUpgrade();
 });
 
-saveElm.addEventListener('click', () => {
-navigator.clipboard.writeText(money+'*'+level+'*'+sold+'*'+levelUp+'*'+buyDisplay+'*'+makeDisplay+'*'+upgradeDisplay);
-  alert('クリップボードにコピーしました！　ctrl+Vで呼び出せます');
+saveElm.addEventListener('click', async () => {
+    console.log('セーブ')
+    const saveData = { money, level, sold, levelUp, buyDisplay, makeDisplay, upgradeDisplay };
+    console.log(saveData);
+    const compressed = JSON.stringify(saveData);
+    await navigator.clipboard.writeText(compressed);
+
+    alert('コピーしました');
 });
 
-loadElm.addEventListener('click', () => {
-  let data = prompt('セーブデータを入力してください');
-  let items = data.split('*');
-  try {
-    if (items.length === 7) {
-      [money, level, sold, levelUp, buyDisplay, makeDisplay, upgradeDisplay] = items;
-      alert('ロードに成功しました！');
-    } else {
-      alert('エラー: セーブコードのうちどれかの項目が足りません。');
+loadElm.addEventListener('click', async () => {
+  const inputVal = prompt('セーブデータを入力');
+
+    try {
+        const loadedData = JSON.parse(inputVal);
+        console.log(loadedData);
+
+        loadedData.buyDisplay = await AaD(loadedData.buyDisplay, buyDisplay);
+        loadedData.makeDisplay = await AaD(loadedData.makeDisplay, makeDisplay);
+        loadedData.upgradeDisplay = await AaD(loadedData.upgradeDisplay, upgradeDisplay);
+
+        ({ money, level, sold, levelUp, buyDisplay, makeDisplay, upgradeDisplay } = loadedData);
+        alert('復元成功！');
+    } catch (err) {
+        alert('データが破損しているか、正しくありません。');
     }
-  } catch (error) {
-    if (error instanceof SyntaxError && error.message.includes("Unexpected end of JSON input")) {
-        alert('エラー: セーブコードのうち1項目が不完全です。');
-    } else {
-        throw error; // 他のエラーは再スロー
-    }
-  }
 });
 
 //ゲームループ
@@ -248,7 +305,6 @@ myWorker.onmessage = function(e) {
       
         if (timer <= 0) {
             if (n <= 5) {
-                console.log(n);
                 if (makeDisplay[1][6] > 0 || makeDisplay[2][6] > 0 || makeDisplay[3][6] > 0 || makeDisplay[4][6] >
                     0|| makeDisplay[5][6] > 0 || makeDisplay[6][6] > 0 || makeDisplay[7][6] > 0) {
                     comeBuyer();
@@ -262,7 +318,7 @@ myWorker.onmessage = function(e) {
         if (sold >= levelUp) {
             level++
             sold = sold - levelUp
-            levelUp = Math.floor(levelUp * 1.5);
+            levelUp = Math.floor(levelUp * 1.75);
             addMessage('レベルアップ！', 1)
         } 
     }
@@ -271,6 +327,23 @@ myWorker.onmessage = function(e) {
 myWorker.postMessage('start');
 
 //関数
+function AaD(item, compare) { //Add and Delete
+    let diff
+    if (item.length < compare.length) {
+        diff = compare.length - item.length;
+        for (let i = 0; i < compare.length; i++) {
+            if (compare[i+1] && item[i+1]) {
+                console.log('許容: ' + compare.length + '/' + i)
+            } else {
+                item.push(compare[i+1]);
+                console.log('追加:' + compare[i+1]);
+            }
+        }
+    }
+    
+    return
+}
+
 function addMessage(message,color) {
     const createAdd = document.createElement('p');
     createAdd.textContent = message;
@@ -542,17 +615,21 @@ function reloadOfBuy() {
     if (buyDisplay[buyPage][4] <= level) {
         buy1.style.filter = '';
         buy10.style.filter = '';
+        buy100.style.filter = '';
         buyAll.style.filter = '';
         sell1.style.filter = '';
         sell10.style.filter = '';
+        sell100.style.filter = '';
         sellAll.style.filter = '';
         buyOpenLvElm.style.display = 'none';
     } else {
         buy1.style.filter = 'brightness(0.5)';
         buy10.style.filter = 'brightness(0.5)';
+        buy100.style.filter = 'brightness(0.5)';
         buyAll.style.filter = 'brightness(0.5)';
         sell1.style.filter = 'brightness(0.5)';
         sell10.style.filter = 'brightness(0.5)';
+        sell100.style.filter = 'brightness(0.5)';
         sellAll.style.filter = 'brightness(0.5)';
         buyOpenLvElm.style.display = '';
     }
@@ -609,11 +686,13 @@ function reloadOfMake() {
     if (makeDisplay[makePage][7] <= level) {
         make1.style.filter = '';
         make10.style.filter = '';
+        make100.style.filter = '';
         makeAll.style.filter = '';
         makeOpenLvElm.style.display = 'none';
     } else {
         make1.style.filter = 'brightness(0.5)';
         make10.style.filter = 'brightness(0.5)';
+        make100.style.filter = 'brightness(0.5)';
         makeAll.style.filter = 'brightness(0.5)';
         makeOpenLvElm.style.display = '';
     }
@@ -713,7 +792,7 @@ function make(num) {
 
 function comeBuyer() {
     const canbuyList = [];
-    for (let i = 1; i < 9; i++) {
+    for (let i = 1; i < makeDisplay.length + 1; i++) {
         if (!makeDisplay[i]) {
             break;
         }
@@ -733,7 +812,7 @@ function comeBuyer() {
     save();
 }
 
-function clear() {
+function clearData() {
     money = 115;
     level = 1;
     sold = 0;
@@ -749,7 +828,8 @@ function clear() {
         [['砂糖'],[110],['img/satou.png'],[0],[3]],
         [['バター'],[120],['img/bata.png'],[0],[3]],
         [['塩'],[160],['img/sio.png'],[0],[4]],
-        [['はちみつ'],[200],['img/hatimitu.png'],[0],[4]]
+        [['はちみつ'],[200],['img/hatimitu.png'],[0],[5]],
+        [['野菜セット'],[750],['img/yasai.png'],[0],[5]]
     ]
 
     makeDisplay = [
@@ -757,11 +837,13 @@ function clear() {
         [['パン'],[[1],[1]],[[0],[0]],[[0],[0]],[45],['img/pan.png'],[0],[1]],
         [['あんぱん'],[[1],[2]],[[2],[1]],[[0],[0]],[130],['img/anpan.png'],[0],[1]],
         [['チョココロネ'],[[1],[1]],[[3],[1]],[[0],[0]],[270],['img/korone.png'],[0],[2]],
-        [['クリームパン'],[[1],[1]],[[4],[1]],[[5],[1]],[440],['img/kurimu.png'],[0],[2]],
-        [['ウシジマパン'],[[1],[3]],[[6],[2]],[[7],[1]],[760],['img/ushijima.png'],[0],[3]],
-        [['塩パン'],[[1],[1]],[[7],[1]],[[8],[1]],[810],['img/siopan.png'],[0],[4]],
-        [['ベーグル'],[[1],[2]],[[6],[2]],[[9],[1]],[1080],['img/beguru.png'],[0],[4]]
-    ]
+        [['クリームパン'],[[1],[1]],[[4],[1]],[[5],[1]],[440],['img/kurimu.png'],[0],[3]],
+        [['ウシジマパン'],[[1],[3]],[[6],[2]],[[7],[1]],[590],['img/ushijima.png'],[0],[4]],
+        [['塩パン'],[[1],[1]],[[7],[1]],[[8],[1]],[650],['img/siopan.png'],[0],[5]],
+        [['フランスパン'],[[1],[10]],[[6],[1]],[[7],[1]],[750],['img/huransupan.png'],[0],[5]],
+        [['ベーグル'],[[1],[2]],[[6],[2]],[[9],[1]],[920],['img/beguru.png'],[0],[6]],
+        [['イタリアンピザ'],[[1],[2]],[[5],[1]],[[10],[1]],[1380],['img/piza.png'],[0],[6]]
+    ];
 
     upgradeDisplay = [
         [null],
@@ -772,3 +854,19 @@ function clear() {
     
     save();
 };
+
+const neko20129 = 'neko20129';
+function debug(e) {
+    if (e === neko20129) {
+        money = 10**128;
+        level = 10**10**10;
+        upgradeDisplay[1][1] = 10**10**10;
+        upgradeDisplay[2][1] = 10**10**10;
+    }
+}
+
+function openRanking() {
+    if (confirm('別のランキングページが新しいタブで開かれます\nよろしいですか？')) {
+        window.open('https://', '_blank', 'noopener,noreferrer');
+    }
+}
