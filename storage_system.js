@@ -18,7 +18,7 @@ function load() {
     makeDisplay = JSON.parse(localStorage.getItem('makeDisplayKey'));
     upgradeDisplay = JSON.parse(localStorage.getItem('upgradeDisplayKey'));
   } else {
-      clear();
+      clearData();
   }
 }
 
