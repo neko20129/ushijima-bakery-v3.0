@@ -396,7 +396,7 @@ body {
 }
         
         /* 読み込みが完了したらコンテンツを表示する */
-.game-container {
+#all-game {
     display: none; /* 初期状態は非表示 */
 }
 

@@ -263,7 +263,7 @@ function preloadImages(sources) {
 
             // 4. 読み込み完了後の画面切り替え処理
             const loadingScreen = document.getElementById('loading-scr');
-            const mainContent = document.querySelectorAll('game-container');
+            const mainContent = document.getElementById('all-game');
 
             // メインコンテンツを表示
             mainContent.style.display = 'flex';
