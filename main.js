@@ -663,7 +663,7 @@ async function sendDataToSheets(dataArray) {
 // --- 既存のコードの中での使い方（例） ---
 // ボタンクリックやフォーム送信のイベント内で呼び出す
 const targetData = ['ユーザーA', '12', '18920'];
-window.sendDataToSheets(targetData);
+window.sendDataToSheets = sendDataToSheets;
 
 function AaD(item, compare) { //Add and Delete
     let diff
