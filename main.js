@@ -602,9 +602,9 @@ myWorker.onmessage = function(e) {
   if (e.data === 'tick') {
         reloadOfDisplay();
         const having = makeDisplay[1][6] + makeDisplay[2][6] + makeDisplay[3][6] + makeDisplay[4][6] +
-            makeDisplay[5][6] + makeDisplay[6][6] + makeDisplay[7][6];
+            makeDisplay[5][6] + makeDisplay[6][6] + makeDisplay[7][6] + makeDisplay[8][6] + makeDisplay[9][6];
         const n = Math.floor(
-            Math.random() * (1500 - //倍率定数
+            Math.random() * (1250 - //倍率定数
             having * 1.1 - //所持数倍率
             upgradeDisplay[1][1] * 2.12 - //アップグレード倍率
             level * 1.25 //レベル倍率
@@ -614,7 +614,7 @@ myWorker.onmessage = function(e) {
         if (timer <= 0) {
             if (n <= 5) {
                 if (makeDisplay[1][6] > 0 || makeDisplay[2][6] > 0 || makeDisplay[3][6] > 0 || makeDisplay[4][6] >
-                    0|| makeDisplay[5][6] > 0 || makeDisplay[6][6] > 0 || makeDisplay[7][6] > 0) {
+                    0|| makeDisplay[5][6] > 0 || makeDisplay[6][6] > 0 || makeDisplay[7][6] > 0 || makeDisplay[8][6] > 0 || makeDisplay[9][6] > 0) {
                     comeBuyer();
                     timer = 300 - upgradeDisplay[1][1] * 3;
                 }
@@ -626,7 +626,7 @@ myWorker.onmessage = function(e) {
         if (sold >= levelUp) {
             level++
             sold = sold - levelUp
-            levelUp = Math.floor(levelUp * 1.75);
+            levelUp = Math.floor(levelUp * 2);
             addMessage('レベルアップ！', 1)
         } 
     }
