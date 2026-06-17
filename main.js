@@ -225,8 +225,6 @@ const imageSources = [
 
 //画像読み込み
 function preloadImages(sources) {
-    if (window.location.href.startsWith('file://')) return;
-
             return new Promise((resolve) => {
                 let loadedCount = 0;
                 const totalImages = sources.length;
@@ -260,6 +258,7 @@ function preloadImages(sources) {
 
         // 3. 実行処理
         window.addEventListener('DOMContentLoaded', async () => {
+            if (window.location.href.startsWith('file://')) return;
             // 画像のプリロードが完了するのを待つ
             await preloadImages(imageSources);
 
