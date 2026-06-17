@@ -639,7 +639,7 @@ myWorker.postMessage('start');
 // GASへデータを送信する関数
 async function sendDataToSheets(dataArray) {
     // ステップ2でコピーしたGASのURL
-    const gasUrl = 'https://script.google.com/a/macros/matsubaramanabi.e-kokoro.ed.jp/s/AKfycbzdMuGZACjf-KSYPufjK9IUx0F6q1qKCqm0sL8mQ-QjCPRuHFcaw6QYkbJvib05_BVDxQ/exec'; 
+    const gasUrl = 'https://script.google.com/a/macros/matsubaramanabi.e-kokoro.ed.jp/s/AKfycbzn_n3sYq9VWRHXJjEGfl0niYvXL7eibkBw3Y8v8QjdA1p4Qbe7PPJDldC9YcqQ61ZDKA/exec'; 
 
     try {
         const response = await fetch(gasUrl, {
