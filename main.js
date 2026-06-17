@@ -643,6 +643,7 @@ async function sendDataToSheets(dataArray) {
     try {
         const response = await fetch(gasUrl, {
             method: 'POST',
+            credentials: 'include',  //情報を含める
             headers: {
                 'Content-Type': 'text/plain', //text/plainにする
             },
