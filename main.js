@@ -258,7 +258,12 @@ function preloadImages(sources) {
 
         // 3. 実行処理
         window.addEventListener('DOMContentLoaded', async () => {
-            if (window.location.href.startsWith('file://')) return;
+            if (window.location.href.startsWith('file://')) {
+                console.log('読み込みキャンセル');
+                mainContent.style.display = 'flex';
+                loadingScreen.style.display = 'none';
+                return;
+            };
             // 画像のプリロードが完了するのを待つ
             await preloadImages(imageSources);
 
