@@ -638,15 +638,13 @@ myWorker.postMessage('start');
 
 // GASへデータを送信する関数
 async function sendDataToSheets(dataArray) {
-    // ステップ2でコピーしたGASのURL
-    const gasUrl = 'https://script.google.com/a/macros/matsubaramanabi.e-kokoro.ed.jp/s/AKfycbzn_n3sYq9VWRHXJjEGfl0niYvXL7eibkBw3Y8v8QjdA1p4Qbe7PPJDldC9YcqQ61ZDKA/exec'; 
+    const gasUrl = 'https://script.google.com/a/macros/matsubaramanabi.e-kokoro.ed.jp/s/AKfycbxBoq6ZrJdeMehkGc91JdtxQl8Th9xCNcn40ltAQia-0WQhpATHTPnQVsiQ_e6xsUV1Dw/exec'; 
 
     try {
         const response = await fetch(gasUrl, {
             method: 'POST',
-            mode: 'cors', // クロスドメイン通信を許可
             headers: {
-                'Content-Type': 'text/plain', // GAS側で受け取りやすくするため、あえてtext/plainにするのがコツです
+                'Content-Type': 'text/plain', //text/plainにする
             },
             body: JSON.stringify(dataArray) // 送りたいデータをJSON文字列に変換
         });
