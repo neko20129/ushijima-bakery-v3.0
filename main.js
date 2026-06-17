@@ -225,6 +225,8 @@ const imageSources = [
 
 //画像読み込み
 function preloadImages(sources) {
+    if (window.location.href.startsWith('file://')) return;
+
             return new Promise((resolve) => {
                 let loadedCount = 0;
                 const totalImages = sources.length;
